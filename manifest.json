@@ -1,0 +1,16 @@
+{
+    "name": "GoodTime",
+    "short_name": "GoodTime",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "description": "GoodTime - Find Your Special One",
+    "icons": [
+        {
+            "src": "icons/goodtime-icon.png",
+            "sizes": "1024x1024",
+            "type": "image/png"
+        }
+    ]
+}
