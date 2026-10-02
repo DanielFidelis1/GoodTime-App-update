@@ -14,16 +14,69 @@
 
     <header class="goodtime-header">
     <div class="header-content">
-        <h1>GoodTime</h1>
 
-        <nav>
-            <a href="browse.html">🏠HOME</a>
-            <a href="messages.html">💬MESSAGES</a>
-            <a href="profile.html">👤MY PROFILE</a>
-            <button id="logout-button">LOGOUT</button>
-        </nav>
+        <h1>
+            <a href="browse.html" style="text-decoration: none; color: inherit;">
+            GoodTime
+        </a>
+        </h1>
+
+        <button
+            class="menu-button"
+            id="menu-button"
+            type="button"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
     </div>
 </header>
+
+<!-- Sidebar -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<aside class="goodtime-sidebar" id="goodtime-sidebar">
+
+    <div class="sidebar-header">
+        <h2>GoodTime</h2>
+
+        <button
+            class="sidebar-close"
+            id="sidebar-close"
+            type="button"
+            aria-label="Close menu"
+        >
+            ×
+        </button>
+    </div>
+
+    <nav class="sidebar-nav">
+
+
+        <a href="browse.html">
+            🏠 Home
+        </a>
+
+        <a href="messages.html">
+            💬 Messages
+        </a>
+
+        <a href="profile.html">
+            👤 My Profile
+        </a>
+
+        <button
+            class="sidebar-logout"
+            id="logout-button"
+            type="button"
+        >
+            🚪 Logout
+        </button>
+
+    </nav>
+
+</aside>
 
     <main class="view-profile-main">
 

@@ -33,39 +33,69 @@
     ================================= -->
 
     <header class="goodtime-header">
+    <div class="header-content">
 
-        <div class="header-content">
+        <h1>
+            <a href="browse.html" style="text-decoration: none; color: inherit;">
+            GoodTime
+        </a>
+        </h1>
 
-            <h1>CHATS</h1>
+        <button
+            class="menu-button"
+            id="menu-button"
+            type="button"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
 
-            <nav>
+    </div>
+</header>
 
-                <a href="browse.html">
-                    🏠HOME
-                </a>
+<!-- Sidebar -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-                <a
-                    href="messages.html"
-                    class="messages-nav-link"
-                >
-                    💬MESSAGES
-                    <span
-                        id="unread-badge"
-                        class="unread-badge"
-                    >
-                        0
-                    </span>
-                </a>
+<aside class="goodtime-sidebar" id="goodtime-sidebar">
 
-                <a href="profile.html">
-                    👤MY PROFILE
-                </a>
+    <div class="sidebar-header">
+        <h2>GoodTime</h2>
 
-            </nav>
+        <button
+            class="sidebar-close"
+            id="sidebar-close"
+            type="button"
+            aria-label="Close menu"
+        >
+            ×
+        </button>
+    </div>
 
-        </div>
+    <nav class="sidebar-nav">
 
-    </header>
+        <a href="browse.html">
+            🏠 Home
+        </a>
+
+        <a href="messages.html">
+            💬 Messages
+        </a>
+
+        <a href="profile.html">
+            👤 My Profile
+        </a>
+
+        <button
+            class="sidebar-logout"
+            id="logout-button"
+            type="button"
+        >
+            🚪 Logout
+        </button>
+
+    </nav>
+
+</aside>
 
 
     <!-- ================================

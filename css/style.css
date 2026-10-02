@@ -2097,3 +2097,178 @@ footer {
         font-size: 28px;
     }
 }
+/* =========================================================
+   GOODTIME SIDEBAR MENU
+========================================================= */
+
+.menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid #eeeeee;
+    border-radius: 11px;
+    background: white;
+    color: #222;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.menu-button:hover {
+    background: #fff5f5;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+}
+
+.menu-button:active {
+    transform: scale(0.96);
+}
+
+/* Dark background behind the sidebar */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+/* Sidebar */
+.goodtime-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    width: 280px;
+    max-width: 85%;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 25px 20px;
+    background: white;
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.12);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+/* Open state */
+.goodtime-sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-overlay.open {
+    display: block;
+    opacity: 1;
+}
+
+/* Sidebar top */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+    color: #222;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.sidebar-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #f7f7f7;
+    color: #444;
+    font-size: 24px;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.sidebar-close:hover {
+    background: #fff0f0;
+    transform: scale(1.05);
+}
+
+/* Navigation */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-nav a,
+.sidebar-logout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: none;
+    border-radius: 11px;
+    background: transparent;
+    color: #333;
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.sidebar-nav a:hover,
+.sidebar-logout:hover {
+    background: #fff3f3;
+    color: #c86f6f;
+    transform: translateX(-2px);
+}
+
+.sidebar-logout {
+    margin-top: 10px;
+    background: #222;
+    color: white;
+}
+
+.sidebar-logout:hover {
+    background: #333;
+    color: white;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .goodtime-sidebar {
+        width: 290px;
+        padding: 22px 16px;
+    }
+
+    .menu-button {
+        width: 40px;
+        height: 40px;
+        font-size: 21px;
+    }
+}

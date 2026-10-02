@@ -33,30 +33,69 @@
     ================================= -->
 
     <header class="goodtime-header">
+    <div class="header-content">
+        
+        <h2>
+            <a href="browse.html" style="text-decoration: none; color: inherit;">
+            GoodTime
+        </a>
+        </h2>
 
-        <div class="header-content">
+        <button
+            class="menu-button"
+            id="menu-button"
+            type="button"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
 
-            <h1>CHAT</h1>
+    </div>
+</header>
 
-            <nav>
+<!-- Sidebar -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-                <a href="browse.html">
-                    🏠HOME
-                </a>
+<aside class="goodtime-sidebar" id="goodtime-sidebar">
 
-                <a href="profile.html">
-                    👤MY PROFILE
-                </a>
+    <div class="sidebar-header">
+        <h2>GoodTime</h2>
 
-                <button id="logout-button">
-                    Logout
-                </button>
+        <button
+            class="sidebar-close"
+            id="sidebar-close"
+            type="button"
+            aria-label="Close menu"
+        >
+            ×
+        </button>
+    </div>
 
-            </nav>
+    <nav class="sidebar-nav">
 
-        </div>
+        <a href="browse.html">
+            🏠 Home
+        </a>
 
-    </header>
+        <a href="messages.html">
+            💬 Messages
+        </a>
+
+        <a href="profile.html">
+            👤 My Profile
+        </a>
+
+        <button
+            class="sidebar-logout"
+            id="logout-button"
+            type="button"
+        >
+            🚪 Logout
+        </button>
+
+    </nav>
+
+</aside>
 
 
     <!-- ================================
@@ -150,12 +189,6 @@
                     will appear here.
                 </p>
 
-                <a
-                    href="browse.html"
-                    class="start-chat-button"
-                >
-                    Browse Profiles
-                </a>
 
             </div>
 

@@ -2851,3 +2851,38 @@ supabaseClient
         }
     )
     .subscribe();
+
+// =========================================================
+// GOODTIME SIDEBAR MENU
+// =========================================================
+
+const menuButton = document.getElementById("menu-button");
+const sidebar = document.getElementById("goodtime-sidebar");
+const sidebarOverlay = document.getElementById("sidebar-overlay");
+const sidebarClose = document.getElementById("sidebar-close");
+
+function openSidebar() {
+    if (!sidebar || !sidebarOverlay) return;
+
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("open");
+}
+
+function closeSidebar() {
+    if (!sidebar || !sidebarOverlay) return;
+
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("open");
+}
+
+if (menuButton) {
+    menuButton.addEventListener("click", openSidebar);
+}
+
+if (sidebarClose) {
+    sidebarClose.addEventListener("click", closeSidebar);
+}
+
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", closeSidebar);
+}
