@@ -1,102 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <link rel="manifest" href="manifest.json">
-    <title>Create Profile - Vibe</title>
-    <link rel="stylesheet" href="css/style.css">
+
+    <title>My Profile - GoodTime</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
+
+
 <body>
-    <body>
 
-    <header>
-        <h1>GoodTime</h1>
+    <!-- ================================
+         HEADER
+    ================================= -->
 
-        <nav>
-            <a href="browse.html">Browse</a>
-            <a href="messages.html">Messages</a>
-            <a href="index.html">Home</a>
-            <button id="logout-button">Logout</button>
-        </nav>
+    <header class="goodtime-header">
+
+        <div class="header-content">
+
+            <h1>GoodTime</h1>
+
+            <nav>
+
+                <a href="browse.html">
+                    🏠HOME
+                </a>
+
+                <a href="messages.html" class="messages-nav-link">
+                    💬MESSAGES
+                    <span id="unread-badge" class="unread-badge">0</span>
+                </a>
+
+                <button id="logout-button">
+                    Logout
+                </button>
+
+            </nav>
+
+        </div>
+
     </header>
 
-    <main>
-    <main>
-        <section class="auth-container profile-container">
-            <h1>Create Your Profile</h1>
-            <p>Tell people a little about yourself.</p>
-            <div class="profile-picture-section">
-                <label for="profile-picture">Profile Picture</label>
-                <div id="current-profile-picture"></div>
-                <input
-                type="file"
-                id="profile-picture"
-                accept="image/*"
-                >
-            </div>
-            
-            <form id="profile-form">
-                <label for="profile-name">Name</label>
-                <input
-                    type="text"
-                    id="profile-name"
-                    placeholder="Enter your name"
-                    required
-                >
-                <label for="profile-age">Age</label>
-                <input
-                    type="number"
-                    id="profile-age"
-                    placeholder="Enter your age"
-                    min="18"
-                    required
-                >
-                <label for="profile-gender">Gender</label>
-                <select id="profile-gender" required>
-                    <option value="">Select your gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-                <label for="profile-location">Location</label>
-                <input
-                    type="text"
-                    id="profile-location"
-                    placeholder="e.g. Abuja"
-                    required
-                >
-                <label for="profile-bio">Bio</label>
-                <textarea
-                id="profile-bio"
-                placeholder="Tell people something about yourself..."
-                rows="5"
-                maxlength="300"
-                required>
-            </textarea>
 
-<small id="bio-counter">0 / 300</small>
-                <button type="submit" class="btn">
+    <!-- ================================
+         PROFILE
+    ================================= -->
+
+    <main class="profile-page">
+
+        <section class="profile-editor">
+
+
+            <!-- TITLE -->
+
+            <div class="profile-editor-heading">
+
+                <span class="profile-label">
+                    YOUR PROFILE
+                </span>
+
+                <h2>
+                    Create your profile
+                </h2>
+
+                <p>
+                    Tell people a little about yourself.
+                </p>
+
+            </div>
+
+
+            <!-- ================================
+                 PROFILE PICTURE
+            ================================= -->
+
+            <div class="profile-picture-section">
+
+                <div class="section-heading">
+
+                    <h3>
+                        Choose your picture
+                    </h3>
+
+                    <p>
+                        Pick the avatar that represents you.
+                    </p>
+
+                </div>
+
+
+                <div class="avatar-grid">
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar1"
+                    >
+                        <img
+                            src="images/avatars/avatar1.png"
+                            alt="Male avatar 1"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar2"
+                    >
+                        <img
+                            src="images/avatars/avatar2.png"
+                            alt="Male avatar 2"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar3"
+                    >
+                        <img
+                            src="images/avatars/avatar3.png"
+                            alt="Male avatar 3"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar4"
+                    >
+                        <img
+                            src="images/avatars/avatar4.png"
+                            alt="Male avatar 4"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar5"
+                    >
+                        <img
+                            src="images/avatars/avatar5.png"
+                            alt="Male avatar 5"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar6"
+                    >
+                        <img
+                            src="images/avatars/avatar6.png"
+                            alt="Female avatar 1"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar7"
+                    >
+                        <img
+                            src="images/avatars/avatar7.png"
+                            alt="Female avatar 2"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar8"
+                    >
+                        <img
+                            src="images/avatars/avatar8.png"
+                            alt="Female avatar 3"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar9"
+                    >
+                        <img
+                            src="images/avatars/avatar9.png"
+                            alt="Female avatar 4"
+                        >
+                    </div>
+
+
+                    <div
+                        class="avatar-option"
+                        data-avatar="avatar10"
+                    >
+                        <img
+                            src="images/avatars/avatar10.png"
+                            alt="Female avatar 5"
+                        >
+                    </div>
+
+                </div>
+
+
+                <input
+                    type="hidden"
+                    id="selected-avatar"
+                >
+
+            </div>
+
+
+            <!-- ================================
+                 PROFILE INFORMATION
+            ================================= -->
+
+            <form id="profile-form">
+
+
+                <div class="form-group">
+
+                    <label for="profile-name">
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="profile-name"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="profile-age">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="profile-age"
+                        placeholder="Enter your age"
+                        min="18"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="profile-gender">
+                        Gender
+                    </label>
+
+                    <select
+                        id="profile-gender"
+                        required
+                    >
+
+                        <option value="">
+                            Select your gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="profile-location">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="profile-location"
+                        placeholder="e.g. Abuja"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="profile-bio">
+                        About you
+                    </label>
+
+                    <textarea
+                        id="profile-bio"
+                        placeholder="Tell people something about yourself..."
+                        rows="5"
+                        maxlength="300"
+                        required
+                    ></textarea>
+
+                    <small id="bio-counter">
+                        0 / 300
+                    </small>
+
+                </div>
+
+
+                <!-- SAVE -->
+
+                <button
+                    type="submit"
+                    class="btn profile-save-button"
+                >
                     Save Profile
                 </button>
-                <a href="browse.html" class="cancel-button">
+
+
+                <!-- CANCEL -->
+
+                <a
+                    href="browse.html"
+                    class="cancel-button"
+                >
                     Cancel
                 </a>
+
             </form>
-            <p class="auth-link">
-    <a href="browse.html">← Back to Browse</a>
-</p>
 
-<p class="auth-link">
-    <a href="messages.html">💬 Messages</a>
-</p>
 
-<p class="auth-link">
-    <a href="index.html">← Back to Home</a>
-</p>
+            <!-- BACK -->
+
+            <div class="profile-back">
+
+                <a href="browse.html">
+                    ← Back to Browse
+                </a>
+
+            </div>
+
+
         </section>
+
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- SUPABASE -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+
+    <!-- GOODTIME JAVASCRIPT -->
+
     <script src="js/app.js"></script>
+
 </body>
+
 </html>

@@ -1,60 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.json">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
     <title>Login - GoodTime</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
 
-<body>
 
-    <main>
-        <section class="auth-container">
+<body class="auth-page">
 
-            <h1>Welcome Back</h1>
 
-            <p>Login to continue using GoodTime.</p>
+    <!-- ================================
+         HEADER
+    ================================= -->
+
+    <header class="auth-header">
+
+        <a
+            href="index.html"
+            class="auth-logo"
+        >
+            GoodTime
+        </a>
+
+    </header>
+
+
+    <!-- ================================
+         LOGIN
+    ================================= -->
+
+    <main class="auth-main">
+
+        <section class="auth-card">
+
+
+            <div class="auth-card-top">
+
+                <span class="auth-label">
+                    WELCOME BACK
+                </span>
+
+                <h1>
+                    Welcome Back
+                </h1>
+
+                <p>
+                    Login to continue using GoodTime.
+                </p>
+
+            </div>
+
+
+            <!-- FORM -->
 
             <form id="login-form">
 
-                <label for="login-email">Email</label>
-                <input
-                    type="email"
-                    id="login-email"
-                    placeholder="Enter your email"
-                    required
-                >
 
-                <label for="login-password">Password</label>
-                <input
-                    type="password"
-                    id="login-password"
-                    placeholder="Enter your password"
-                    required
-                >
+                <div class="auth-field">
 
-                <button type="submit" class="btn">
+                    <label for="login-email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="login-email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="login-password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="login-password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
                     Login
                 </button>
+                <a href="#"
+                id="forgot-password"
+                class="forgot-password"
+                >
+                Forgot password?
+            </a>
+
 
             </form>
 
-            <p class="auth-link">
+
+            <!-- SIGNUP LINK -->
+
+            <p class="auth-switch">
+
                 Don't have an account?
-                <a href="signup.html">Sign Up</a>
+
+                <a href="signup.html">
+                    Sign Up
+                </a>
+
             </p>
 
-            <p class="auth-link">
-                <a href="index.html">Back to Home</a>
-            </p>
+
+            <!-- HOME -->
+
+            <a
+                href="index.html"
+                class="auth-back"
+            >
+                ← Back to GoodTime
+            </a>
+
 
         </section>
+
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- SUPABASE -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+
+    <!-- GOODTIME JAVASCRIPT -->
+
     <script src="js/app.js"></script>
 
 </body>
+
 </html>
