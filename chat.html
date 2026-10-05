@@ -74,30 +74,34 @@
     <nav class="sidebar-nav">
 
         <a href="browse.html">
-            🏠 Home
+            🏠HOME
         </a>
 
-        <a href="messages.html">
-            💬 Messages
+        <a href="messages.html" class="messages-sidebar-link">
+            💬MESSAGES
+            <span id="sidebar-unread-count" class="sidebar-unread-count"></span>
         </a>
 
-        <a href="profile.html">
-            👤 My Profile
+        <a href="view-my-profile.htmll">
+            👤MY PROFILE
+        </a>
+        <a href="settings.html">
+            ⚙️SETTINGS
         </a>
             <div class="theme-section">
     <p class="theme-title">Appearance</p>
 
     <div class="theme-options">
         <button type="button" class="theme-option" data-theme="light">
-            ☀️ Light
+            ☀️Light
         </button>
 
         <button type="button" class="theme-option" data-theme="dark">
-            🌙 Dark
+            🌙Dark
         </button>
 
         <button type="button" class="theme-option" data-theme="system">
-            ⚙️ System
+            ⚙️System mode
         </button>
     </div>
 </div>
@@ -119,53 +123,101 @@
          CHAT
     ================================= -->
 
-    <main class="chat-main">
+    <!-- ================================
+     CHAT
+================================= -->
 
-        <section class="chat-container">
+<main class="chat-main">
 
+    <section class="chat-container">
 
-            <!-- CHAT HEADER -->
+        <!-- CHAT HEADER -->
+        <div class="chat-header">
 
-            <div class="chat-header">
+            <a
+                href="messages.html"
+                class="chat-back-button"
+            >
+                ←
+            </a>
 
-                <a
-                    href="messages.html"
-                    class="chat-back-button"
+            <div class="chat-user-info">
+
+                <!-- USER AVATAR -->
+                <div
+                    id="chat-user-avatar"
+                    class="chat-user-avatar"
                 >
-                    ←
-                </a>
+                    👤
+                </div>
 
+                <div class="chat-user-details">
 
-                <div class="chat-user-info">
+                    <span class="chat-label">
+                        CONVERSATION
+                    </span>
 
+                    <div class="chat-user-heading">
 
-                    <!-- USER AVATAR -->
-
-                    <div
-                        id="chat-user-avatar"
-                        class="chat-user-avatar"
-                    >
-                        👤
-                    </div>
-
-
-                    <div>
-
-                        <span class="chat-label">
-                            CONVERSATION
-                        </span>
-
-                        <h2 id="chat-name">
-                            Chat
+                        <h2 id="chat-user-name">
+                            Loading...
                         </h2>
 
-                    </div>
+                        <div
+                            id="chat-user-status"
+                            class="chat-user-status"
+                        >
+                            <span class="chat-status-dot"></span>
 
+                            <span id="chat-user-status-text">
+                                Offline
+                            </span>
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
+        </div>
+
+
+        <!-- ================================
+             MESSAGES
+        ================================= -->
+
+        <div id="messages-container"></div>
+
+        <div id="typing-indicator"></div>
+
+
+        <!-- ================================
+             MESSAGE INPUT
+        ================================= -->
+
+        <form id="message-form">
+
+            <input
+                type="text"
+                id="message-input"
+                placeholder="Type a message..."
+                autocomplete="off"
+                required
+            >
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Send
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
 
             <!-- ================================
                  MESSAGES
@@ -174,35 +226,6 @@
             <div id="messages-container"></div>
 
             <div id="typing-indicator"></div>
-
-
-            <!-- ================================
-                 MESSAGE INPUT
-            ================================= -->
-
-            <form id="message-form">
-
-                <input
-                    type="text"
-                    id="message-input"
-                    placeholder="Type a message..."
-                    autocomplete="off"
-                    required
-                >
-
-                <button
-                    type="submit"
-                    class="btn"
-                >
-                    Send
-                </button>
-
-            </form>
-
-
-        </section>
-
-    </main>
 
 
     <!-- SUPABASE -->

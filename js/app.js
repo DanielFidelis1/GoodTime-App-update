@@ -151,14 +151,15 @@ if (signupForm) {
 async function checkUser() {
 
     const protectedPages = [
-        "browse.html",
-        "profile.html",
-        "chat.html",
-        "message.html",
-        "messages.html",
-        "view-profile.html"
-    ];
-
+    "browse.html",
+    "profile.html",
+    "chat.html",
+    "message.html",
+    "messages.html",
+    "view-profile.html",
+    "view-my-profile.html",
+    "settings.html"
+];
     const currentPage = getCurrentPage();
 
     if (!protectedPages.includes(currentPage)) {
@@ -1607,13 +1608,42 @@ async function loadChatUser(
     } = await supabaseClient
         .from("profiles")
         .select(
-            "name, profile-pictures"
+            "name, profile-pictures, last_seen"
         )
         .eq(
             "id",
             receiverId
         )
         .maybeSingle();
+
+    const activityStatus =
+    getActivityStatus(
+        profile.last_seen
+    );
+
+const chatUserStatus =
+    document.getElementById(
+        "chat-user-status"
+    );
+
+const chatUserStatusText =
+    document.getElementById(
+        "chat-user-status-text"
+    );
+
+if (
+    chatUserStatus &&
+    chatUserStatusText
+) {
+
+    chatUserStatusText.textContent =
+        activityStatus.text;
+
+    chatUserStatus.classList.toggle(
+        "active",
+        activityStatus.active
+    );
+}
 
 
     if (error) {
@@ -1856,7 +1886,7 @@ async function loadMessages(
     updateUnreadBadge();
 }
 
-/// ============================================================
+// ============================================================
 // LOAD CONVERSATIONS
 // ============================================================
 
@@ -1890,6 +1920,10 @@ async function loadConversations() {
     }
 
 
+    // --------------------------------------------------------
+    // GET ALL MESSAGES
+    // --------------------------------------------------------
+
     const {
         data: messages,
         error
@@ -1914,17 +1948,47 @@ async function loadConversations() {
             error
         );
 
-        conversationsContainer.innerHTML =
-            "<p>Could not load messages.</p>";
+        conversationsContainer.innerHTML = `
+            <div class="messages-empty-state">
+                <div class="messages-empty-icon">⚠️</div>
+                <h3>Unable to load messages</h3>
+                <p>Please refresh the page and try again.</p>
+            </div>
+        `;
 
         return;
     }
 
 
+    // --------------------------------------------------------
+    // NO CONVERSATIONS
+    // --------------------------------------------------------
+
     if (!messages || messages.length === 0) {
 
-        conversationsContainer.innerHTML =
-            "<p>You have no conversations yet.</p>";
+        conversationsContainer.innerHTML = `
+            <div class="messages-empty-state">
+
+                <div class="messages-empty-icon">
+                    💬
+                </div>
+
+                <h3>No conversations yet</h3>
+
+                <p>
+                    Start a conversation with someone
+                    from Browse.
+                </p>
+
+                <a
+                    href="browse.html"
+                    class="messages-browse-button"
+                >
+                    Browse Profiles
+                </a>
+
+            </div>
+        `;
 
         return;
     }
@@ -1933,6 +1997,10 @@ async function loadConversations() {
     conversationsContainer.innerHTML = "";
 
 
+    // --------------------------------------------------------
+    // GET UNIQUE USERS
+    // --------------------------------------------------------
+
     const userIds = [];
 
 
@@ -1940,11 +2008,8 @@ async function loadConversations() {
         function (message) {
 
             const otherUser =
-                message.sender_id ===
-                    user.id
-
+                message.sender_id === user.id
                     ? message.receiver_id
-
                     : message.sender_id;
 
 
@@ -1961,6 +2026,10 @@ async function loadConversations() {
         }
     );
 
+
+    // --------------------------------------------------------
+    // BUILD CONVERSATIONS
+    // --------------------------------------------------------
 
     for (
         const userId of userIds
@@ -1995,20 +2064,25 @@ async function loadConversations() {
         }
 
 
+        // ----------------------------------------------------
+        // LATEST MESSAGE
+        // ----------------------------------------------------
+
         const latestMessage =
             messages.find(
                 function (message) {
 
                     return (
-                        message.sender_id ===
-                            userId ||
-
-                        message.receiver_id ===
-                            userId
+                        message.sender_id === userId ||
+                        message.receiver_id === userId
                     );
                 }
             );
 
+
+        // ----------------------------------------------------
+        // UNREAD COUNT
+        // ----------------------------------------------------
 
         const unreadCount =
             messages.filter(
@@ -2016,18 +2090,19 @@ async function loadConversations() {
 
                     return (
 
-                        message.sender_id ===
-                            userId &&
+                        message.sender_id === userId &&
 
-                        message.receiver_id ===
-                            user.id &&
+                        message.receiver_id === user.id &&
 
-                        message.is_read ===
-                            false
+                        message.is_read === false
                     );
                 }
             ).length;
 
+
+        // ----------------------------------------------------
+        // CONVERSATION CARD
+        // ----------------------------------------------------
 
         const conversation =
             document.createElement(
@@ -2046,27 +2121,95 @@ async function loadConversations() {
             "conversation-card";
 
 
-        const latestMessageText =
+        // Add unread class
+        if (unreadCount > 0) {
+
+            conversation.classList.add(
+                "conversation-unread"
+            );
+        }
+
+
+        // ----------------------------------------------------
+        // MESSAGE TEXT
+        // ----------------------------------------------------
+
+        let latestMessageText =
             latestMessage
                 ? escapeHTML(
                     latestMessage.message
                 )
-                : "";
+                : "No messages yet";
 
 
-        const latestTime =
-            latestMessage
-                ? new Date(
+        // Shorten very long messages
+        if (
+            latestMessageText.length > 55
+        ) {
+
+            latestMessageText =
+                latestMessageText.substring(
+                    0,
+                    55
+                ) + "...";
+        }
+
+
+        // ----------------------------------------------------
+        // TIME
+        // ----------------------------------------------------
+
+        let latestTime = "";
+
+
+        if (
+            latestMessage &&
+            latestMessage.created_at
+        ) {
+
+            const messageDate =
+                new Date(
                     latestMessage.created_at
-                ).toLocaleTimeString(
-                    [],
-                    {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    }
-                )
-                : "";
+                );
 
+
+            const today =
+                new Date();
+
+
+            const sameDay =
+                messageDate.toDateString() ===
+                today.toDateString();
+
+
+            if (sameDay) {
+
+                latestTime =
+                    messageDate.toLocaleTimeString(
+                        [],
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
+
+            } else {
+
+                latestTime =
+                    messageDate.toLocaleDateString(
+                        [],
+                        {
+                            day: "numeric",
+                            month: "short"
+                        }
+                    );
+            }
+        }
+
+
+        // ----------------------------------------------------
+        // AVATAR
+        // ----------------------------------------------------
 
         const avatar =
             profile["profile-pictures"]
@@ -2088,39 +2231,74 @@ async function loadConversations() {
                 `;
 
 
+        // ----------------------------------------------------
+        // UNREAD BADGE
+        // ----------------------------------------------------
+
+        const unreadBadge =
+            unreadCount > 0
+                ? `
+                    <span class="conversation-unread-badge">
+                        ${unreadCount > 99
+                            ? "99+"
+                            : unreadCount}
+                    </span>
+                `
+                : "";
+
+
+        // ----------------------------------------------------
+        // CARD HTML
+        // ----------------------------------------------------
+
         conversation.innerHTML = `
 
             <div class="conversation-avatar-wrapper">
+
                 ${avatar}
-            </div>
-
-            <div class="conversation-content">
-
-                <strong>
-                    ${escapeHTML(
-                        profile.name
-                    )}
-                </strong>
-
-                <span>
-                    ${latestMessageText}
-                </span>
-
-                <small>
-                    ${latestTime}
-                </small>
 
                 ${
                     unreadCount > 0
                         ? `
-                            <b class="unread-badge">
-                                ${unreadCount} unread
-                            </b>
+                            <span
+                                class="conversation-status-dot"
+                            ></span>
                         `
                         : ""
                 }
 
             </div>
+
+
+            <div class="conversation-content">
+
+                <div class="conversation-top-row">
+
+                    <strong>
+                        ${escapeHTML(
+                            profile.name
+                        )}
+                    </strong>
+
+                    <small>
+                        ${latestTime}
+                    </small>
+
+                </div>
+
+
+                <div class="conversation-bottom-row">
+
+                    <span class="conversation-preview">
+                        ${latestMessageText}
+                    </span>
+
+                    ${unreadBadge}
+
+                </div>
+
+            </div>
+
         `;
 
 
@@ -2129,7 +2307,6 @@ async function loadConversations() {
         );
     }
 }
-
 
 // ============================================================
 // REALTIME CONVERSATION UPDATES
@@ -2155,7 +2332,111 @@ if (conversationsContainer) {
         )
         .subscribe();
 }
+// ============================================================
+// SEARCH CONVERSATIONS
+// ============================================================
 
+const conversationSearch =
+    document.getElementById(
+        "conversation-search"
+    );
+
+if (conversationSearch) {
+
+    conversationSearch.addEventListener(
+        "input",
+        function () {
+
+            const searchTerm =
+                conversationSearch.value
+                    .trim()
+                    .toLowerCase();
+
+            const conversationCards =
+                document.querySelectorAll(
+                    ".conversation-card"
+                );
+
+            let visibleCount = 0;
+
+            conversationCards.forEach(
+                function (card) {
+
+                    const name =
+                        card
+                            .querySelector(
+                                ".conversation-top-row strong"
+                            )
+                            ?.textContent
+                            .toLowerCase() || "";
+
+                    if (
+                        name.includes(
+                            searchTerm
+                        )
+                    ) {
+
+                        card.style.display = "flex";
+
+                        visibleCount++;
+
+                    } else {
+
+                        card.style.display = "none";
+                    }
+                }
+            );
+
+
+            // Remove an existing search message
+            const existingMessage =
+                document.getElementById(
+                    "no-conversation-search-result"
+                );
+
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+
+
+            // Show message when nothing matches
+            if (
+                searchTerm &&
+                visibleCount === 0
+            ) {
+
+                const message =
+                    document.createElement(
+                        "div"
+                    );
+
+                message.id =
+                    "no-conversation-search-result";
+
+                message.className =
+                    "messages-search-empty";
+
+                message.innerHTML = `
+                    <div class="messages-empty-icon">
+                        🔍
+                    </div>
+
+                    <h3>
+                        No conversation found
+                    </h3>
+
+                    <p>
+                        Try searching for another name.
+                    </p>
+                `;
+
+                conversationsContainer.appendChild(
+                    message
+                );
+            }
+        }
+    );
+}
 
 // ============================================================
 // VIEW PROFILE
@@ -2196,7 +2477,114 @@ if (viewProfileDetails) {
     }
 }
 
+// ============================================================
+// FORMAT LAST SEEN
+// ============================================================
 
+function getActivityStatus(lastSeen) {
+
+    if (!lastSeen) {
+        return {
+            text: "Offline",
+            active: false
+        };
+    }
+
+
+    const lastSeenDate =
+        new Date(lastSeen);
+
+    const now =
+        new Date();
+
+
+    const difference =
+        now - lastSeenDate;
+
+
+    const minutes =
+        Math.floor(
+            difference / (1000 * 60)
+        );
+
+
+    // Active within 2 minutes
+    if (minutes <= 2) {
+
+        return {
+            text: "Active now",
+            active: true
+        };
+
+    }
+
+
+    // Less than 60 minutes
+    if (minutes < 60) {
+
+        return {
+            text:
+                "Active " +
+                minutes +
+                " min ago",
+
+            active: false
+        };
+
+    }
+
+
+    // Less than 24 hours
+    const hours =
+        Math.floor(
+            minutes / 60
+        );
+
+
+    if (hours < 24) {
+
+        return {
+            text:
+                "Active " +
+                hours +
+                (
+                    hours === 1
+                        ? " hour ago"
+                        : " hours ago"
+                ),
+
+            active: false
+        };
+
+    }
+
+
+    // Yesterday / older
+    const days =
+        Math.floor(
+            hours / 24
+        );
+
+
+    if (days === 1) {
+
+        return {
+            text: "Active yesterday",
+            active: false
+        };
+
+    }
+
+
+    return {
+        text:
+            "Active " +
+            days +
+            " days ago",
+
+        active: false
+    };
+}
 // ============================================================
 // LOAD VIEWED PROFILE
 // ============================================================
@@ -2210,9 +2598,14 @@ async function loadViewedProfile(
         error
     } = await supabaseClient
         .from("profiles")
-        .select("*")
+        .select("*, last_seen")
         .eq("id", profileId)
         .maybeSingle();
+
+    const activityStatus =
+    getActivityStatus(
+        profile.last_seen
+    );
 
 
     if (error) {
@@ -2260,135 +2653,176 @@ async function loadViewedProfile(
         profile["profile-pictures"];
 
 
-    viewProfileDetails.innerHTML = `
+    // ------------------------------------------------
+    // GET ADDITIONAL PHOTOS
+    // ------------------------------------------------
 
-        ${
-            viewedPicture
+    let additionalPhotos = [];
 
-                ? `
-                    <img
-                        src="${escapeHTML(viewedPicture)}"
-                        alt="${escapeHTML(profile.name)}"
-                        class="view-profile-picture"
-                    >
-                `
+    if (profile["profile-photos"]) {
 
-                : `
-                    <div class="no-profile-picture">
-                        👤
-                    </div>
-                `
+        try {
+
+            additionalPhotos =
+                JSON.parse(
+                    profile["profile-photos"]
+                );
+
+        } catch (error) {
+
+            console.error(
+                "Could not read additional profile photos:",
+                error
+            );
+
+            additionalPhotos = [];
         }
-
-
-        <p>
-            <strong>Age:</strong>
-            ${escapeHTML(profile.age)}
-        </p>
-
-
-        <p>
-            <strong>Gender:</strong>
-            ${escapeHTML(profile.gender)}
-        </p>
-
-
-        <p>
-            <strong>Location:</strong>
-            ${escapeHTML(profile.location)}
-        </p>
-
-
-        <p>
-            <strong>About:</strong>
-        </p>
-
-
-        <p>
-            ${escapeHTML(profile.bio)}
-        </p>
-    `;
-
-
-    // ------------------------------------------------
-    // PROFILE IMAGE MODAL
-    // ------------------------------------------------
-
-    const profileImage =
-        viewProfileDetails.querySelector(
-            ".view-profile-picture"
-        );
-
-
-    const imageModal =
-        document.getElementById(
-            "image-modal"
-        );
-
-
-    const modalProfileImage =
-        document.getElementById(
-            "modal-profile-image"
-        );
-
-
-    const closeImageModal =
-        document.getElementById(
-            "close-image-modal"
-        );
-
-
-    if (
-        profileImage &&
-        imageModal &&
-        modalProfileImage
-    ) {
-
-        profileImage.addEventListener(
-            "click",
-            function () {
-
-                modalProfileImage.src =
-                    profileImage.src;
-
-                imageModal.style.display =
-                    "flex";
-            }
-        );
     }
 
 
-    if (
-        closeImageModal &&
-        imageModal
-    ) {
+    // ------------------------------------------------
+    // BUILD ADDITIONAL PHOTO GALLERY
+    // ------------------------------------------------
 
-        closeImageModal.addEventListener(
-            "click",
-            function () {
-
-                imageModal.style.display =
-                    "none";
-            }
-        );
+    let galleryHTML = "";
 
 
-        imageModal.addEventListener(
-            "click",
-            function (event) {
+    if (additionalPhotos.length > 0) {
+
+        galleryHTML = `
+            <div class="view-profile-gallery">
+
+                <h3 class="view-profile-gallery-title">
+                    Photos
+                </h3>
+
+                <div class="view-profile-gallery-grid">
+        `;
+
+
+        additionalPhotos.forEach(
+            function (photoPath) {
+
+                const {
+                    data
+                } = supabaseClient.storage
+                    .from("user-photos")
+                    .getPublicUrl(
+                        photoPath
+                    );
+
 
                 if (
-                    event.target ===
-                    imageModal
+                    data &&
+                    data.publicUrl
                 ) {
 
-                    imageModal.style.display =
-                        "none";
+                    galleryHTML += `
+                        <div class="view-profile-gallery-item">
+
+                            <img
+                                src="${escapeHTML(data.publicUrl)}"
+                                alt="${escapeHTML(profile.name)}"
+                                class="view-profile-gallery-image"
+                            >
+
+                        </div>
+                    `;
                 }
+
             }
         );
+
+
+        galleryHTML += `
+
+                </div>
+
+            </div>
+        `;
     }
 
+
+    // ------------------------------------------------
+    // DISPLAY PROFILE
+    // ------------------------------------------------
+
+    viewProfileDetails.innerHTML = `
+
+        <div class="view-profile-main-photo-wrapper">
+
+            ${
+                viewedPicture
+
+                    ? `
+                        <img
+                            src="${escapeHTML(viewedPicture)}"
+                            alt="${escapeHTML(profile.name)}"
+                            class="view-profile-picture"
+                        >
+                    `
+
+                    : `
+                        <div class="no-profile-picture">
+                            👤
+                        </div>
+                    `
+            }
+
+        </div>
+
+
+        ${galleryHTML}
+        
+        
+        
+        <div class="view-profile-info">
+        
+        <div class="profile-activity-status ${
+            activityStatus.active
+            ? "active"
+            : ""
+        }">
+
+        <span class="activity-dot"></span>
+
+        <span>
+            ${escapeHTML(
+                activityStatus.text
+            )}
+        </span>
+
+    </div>
+
+    <p>
+        <strong>Age:</strong>
+        ${escapeHTML(profile.age)}
+    </p>
+
+
+            <p>
+                <strong>Gender:</strong>
+                ${escapeHTML(profile.gender)}
+            </p>
+
+
+            <p>
+                <strong>Location:</strong>
+                ${escapeHTML(profile.location)}
+            </p>
+
+
+            <p>
+                <strong>About:</strong>
+            </p>
+
+
+            <p>
+                ${escapeHTML(profile.bio)}
+            </p>
+
+        </div>
+    `;
 
     // ------------------------------------------------
     // MESSAGE BUTTON
@@ -2399,7 +2833,6 @@ async function loadViewedProfile(
             "message-profile-button"
         );
 
-
     if (messageProfileButton) {
 
         messageProfileButton.href =
@@ -2407,10 +2840,11 @@ async function loadViewedProfile(
             encodeURIComponent(
                 profile.id
             );
+
+        messageProfileButton.style.display =
+            "inline-block";
     }
 }
-
-
 // ============================================================
 // BIO CHARACTER COUNTER
 // ============================================================
@@ -2978,3 +3412,1066 @@ if (sidebarOverlay) {
     );
 
 })();
+// =========================================================
+// GOODTIME - ADDITIONAL PROFILE PHOTOS
+// =========================================================
+
+const addProfilePhotoButton =
+    document.getElementById("add-profile-photo-button");
+
+const profilePhotoInput =
+    document.getElementById("profile-photo-input");
+
+const profilePhotosGrid =
+    document.getElementById("profile-photos-grid");
+
+
+// ---------------------------------------------------------
+// LOAD ADDITIONAL PROFILE PHOTOS
+// ---------------------------------------------------------
+
+async function loadAdditionalProfilePhotos() {
+
+    if (!profilePhotosGrid) {
+        return;
+    }
+
+    const user = await getLoggedInUser();
+
+    if (!user) {
+        return;
+    }
+
+    const { data: profile, error } = await supabaseClient
+        .from("profiles")
+        .select("profile-photos")
+        .eq("id", user.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error(
+            "Could not load profile photos:",
+            error
+        );
+        return;
+    }
+
+    profilePhotosGrid.innerHTML = "";
+
+    if (!profile || !profile["profile-photos"]) {
+        return;
+    }
+
+    let photos = [];
+
+    try {
+        photos = JSON.parse(
+            profile["profile-photos"]
+        );
+    } catch (error) {
+        console.error(
+            "Invalid profile-photos data:",
+            error
+        );
+        return;
+    }
+
+    photos.forEach(function (photoPath) {
+
+        createAdditionalPhotoElement(
+            photoPath
+        );
+
+    });
+}
+
+
+// ---------------------------------------------------------
+// CREATE PHOTO PREVIEW
+// ---------------------------------------------------------
+
+function createAdditionalPhotoElement(
+    photoPath
+) {
+
+    if (!profilePhotosGrid) {
+        return;
+    }
+
+    const photoItem =
+        document.createElement("div");
+
+    photoItem.className =
+        "profile-photo-item";
+
+
+    const image =
+        document.createElement("img");
+
+    const {
+        data
+    } = supabaseClient.storage
+        .from("user-photos")
+        .getPublicUrl(photoPath);
+
+    image.src =
+        data.publicUrl;
+
+    image.alt =
+        "Additional profile photo";
+
+
+    // Delete button
+    const deleteButton =
+        document.createElement("button");
+
+    deleteButton.type =
+        "button";
+
+    deleteButton.className =
+        "delete-profile-photo";
+
+    deleteButton.innerHTML =
+        "×";
+
+
+    deleteButton.addEventListener(
+        "click",
+        async function () {
+
+            const confirmDelete =
+                confirm(
+                    "Delete this photo?"
+                );
+
+            if (!confirmDelete) {
+                return;
+            }
+
+            await deleteAdditionalProfilePhoto(
+                photoPath,
+                photoItem
+            );
+
+        }
+    );
+
+
+    photoItem.appendChild(image);
+
+    photoItem.appendChild(
+        deleteButton
+    );
+
+    profilePhotosGrid.appendChild(
+        photoItem
+    );
+}
+
+
+// ---------------------------------------------------------
+// DELETE PHOTO
+// ---------------------------------------------------------
+
+async function deleteAdditionalProfilePhoto(
+    photoPath,
+    photoElement
+) {
+
+    const user =
+        await getLoggedInUser();
+
+    if (!user) {
+        alert(
+            "Please log in again."
+        );
+        return;
+    }
+
+
+    // Make sure the photo belongs
+    // to the logged-in user
+    if (
+        !photoPath.startsWith(
+            user.id + "/"
+        )
+    ) {
+
+        alert(
+            "You cannot delete this photo."
+        );
+
+        return;
+    }
+
+
+    // Delete from Storage
+    const {
+        error: storageError
+    } = await supabaseClient.storage
+        .from("user-photos")
+        .remove([
+            photoPath
+        ]);
+
+
+    if (storageError) {
+
+        console.error(
+            "Storage delete error:",
+            storageError
+        );
+
+        alert(
+            "Could not delete the photo."
+        );
+
+        return;
+    }
+
+
+    // Get current profile photos
+    const {
+        data: profile,
+        error: profileError
+    } = await supabaseClient
+        .from("profiles")
+        .select("profile-photos")
+        .eq("id", user.id)
+        .maybeSingle();
+
+
+    if (profileError) {
+
+        console.error(
+            "Profile photo data error:",
+            profileError
+        );
+
+        return;
+    }
+
+
+    let photos = [];
+
+    if (profile && profile["profile-photos"]) {
+
+        try {
+
+            photos =
+                JSON.parse(
+                    profile["profile-photos"]
+                );
+
+        } catch (error) {
+
+            photos = [];
+
+        }
+    }
+
+
+    // Remove deleted photo
+    photos =
+        photos.filter(function (photo) {
+
+            return photo !== photoPath;
+
+        });
+
+
+    // Save updated list
+    const {
+        error: updateError
+    } = await supabaseClient
+        .from("profiles")
+        .update({
+            "profile-photos":
+                JSON.stringify(photos)
+        })
+        .eq("id", user.id);
+
+
+    if (updateError) {
+
+        console.error(
+            "Profile photo update error:",
+            updateError
+        );
+
+        alert(
+            "Photo deleted, but profile data could not be updated."
+        );
+
+        return;
+    }
+
+
+    // Remove from screen
+    if (photoElement) {
+
+        photoElement.remove();
+
+    }
+
+    console.log(
+        "Additional photo deleted:",
+        photoPath
+    );
+}
+
+
+// ---------------------------------------------------------
+// ADD / UPLOAD PHOTO
+// ---------------------------------------------------------
+
+if (
+    addProfilePhotoButton &&
+    profilePhotoInput
+) {
+
+    addProfilePhotoButton.addEventListener(
+        "click",
+        function () {
+
+            profilePhotoInput.click();
+
+        }
+    );
+
+
+    profilePhotoInput.addEventListener(
+        "change",
+        async function () {
+
+            const file =
+                profilePhotoInput.files[0];
+
+            if (!file) {
+                return;
+            }
+
+
+            const user =
+                await getLoggedInUser();
+
+            if (!user) {
+
+                alert(
+                    "Please log in again."
+                );
+
+                return;
+            }
+
+
+            // Get existing photos
+            const {
+                data: profile,
+                error
+            } = await supabaseClient
+                .from("profiles")
+                .select("profile-photos")
+                .eq("id", user.id)
+                .maybeSingle();
+
+
+            if (error) {
+
+                console.error(
+                    "Could not get profile photos:",
+                    error
+                );
+
+                alert(
+                    "Could not load your photos."
+                );
+
+                return;
+            }
+
+
+            let photos = [];
+
+            if (
+                profile &&
+                profile["profile-photos"]
+            ) {
+
+                try {
+
+                    photos =
+                        JSON.parse(
+                            profile["profile-photos"]
+                        );
+
+                } catch (error) {
+
+                    photos = [];
+
+                }
+            }
+
+
+            // Maximum 4 additional photos
+            if (photos.length >= 4) {
+
+                alert(
+                    "You can only add up to 4 additional photos."
+                );
+
+                profilePhotoInput.value =
+                    "";
+
+                return;
+            }
+
+
+            // Only allow images
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
+
+                alert(
+                    "Please select an image file."
+                );
+
+                profilePhotoInput.value =
+                    "";
+
+                return;
+            }
+
+
+            // Maximum 5MB
+            if (
+                file.size >
+                5 * 1024 * 1024
+            ) {
+
+                alert(
+                    "Please choose an image smaller than 5MB."
+                );
+
+                profilePhotoInput.value =
+                    "";
+
+                return;
+            }
+
+
+            // Create unique filename
+            const fileExtension =
+                file.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+            const fileName =
+                Date.now() +
+                "-" +
+                Math.random()
+                    .toString(36)
+                    .substring(2, 8) +
+                "." +
+                fileExtension;
+
+
+            // Store each user's photos
+            // inside their own folder
+            const filePath =
+                user.id +
+                "/" +
+                fileName;
+
+
+            console.log(
+                "Uploading photo:",
+                filePath
+            );
+
+
+            // Upload to Supabase Storage
+            const {
+                error: uploadError
+            } = await supabaseClient.storage
+                .from("user-photos")
+                .upload(
+                    filePath,
+                    file,
+                    {
+                        cacheControl: "3600",
+                        upsert: false
+                    }
+                );
+
+
+            if (uploadError) {
+
+                console.error(
+                    "Photo upload error:",
+                    uploadError
+                );
+
+                alert(
+                    "Could not upload photo: " +
+                    uploadError.message
+                );
+
+                return;
+            }
+
+
+            // Add new photo path
+            photos.push(
+                filePath
+            );
+
+
+            // Save paths to database
+            const {
+                error: updateError
+            } = await supabaseClient
+                .from("profiles")
+                .update({
+                    "profile-photos":
+                        JSON.stringify(photos)
+                })
+                .eq("id", user.id);
+
+
+            if (updateError) {
+
+                console.error(
+                    "Profile photo save error:",
+                    updateError
+                );
+
+                // If database save fails,
+                // remove uploaded file
+                await supabaseClient.storage
+                    .from("user-photos")
+                    .remove([
+                        filePath
+                    ]);
+
+                alert(
+                    "Photo uploaded but could not be saved to your profile."
+                );
+
+                return;
+            }
+
+
+            // Display the uploaded photo
+            createAdditionalPhotoElement(
+                filePath
+            );
+
+
+            // Reset file input
+            profilePhotoInput.value =
+                "";
+
+
+            console.log(
+                "Additional photo uploaded successfully:",
+                filePath
+            );
+
+        }
+    );
+}
+
+
+// ---------------------------------------------------------
+// LOAD PHOTOS WHEN PROFILE PAGE OPENS
+// ---------------------------------------------------------
+
+loadAdditionalProfilePhotos();
+// ========================================================
+// SIDEBAR UNREAD MESSAGE COUNT
+// ========================================================
+
+async function updateSidebarUnreadCount() {
+
+    const badge =
+        document.getElementById("sidebar-unread-count");
+
+    if (!badge) {
+        return;
+    }
+
+    const {
+        data: {
+            user
+        }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        return;
+    }
+
+    const {
+        count,
+        error
+    } = await supabaseClient
+        .from("messages")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .eq("receiver_id", user.id)
+        .eq("is_read", false);
+
+    if (error) {
+        console.error(
+            "Error loading unread message count:",
+            error
+        );
+
+        return;
+    }
+
+    if (count && count > 0) {
+
+        badge.textContent =
+            count > 99 ? "99+" : count;
+
+        badge.classList.add("show");
+
+    } else {
+
+        badge.textContent = "";
+
+        badge.classList.remove("show");
+    }
+}
+
+
+// Load unread count
+updateSidebarUnreadCount();
+
+
+// Update when a new message arrives
+async function listenForSidebarUnreadMessages() {
+
+    const {
+        data: {
+            user
+        }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        return;
+    }
+
+    supabaseClient
+        .channel("sidebar-unread-messages")
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "messages",
+                filter:
+                    "receiver_id=eq." + user.id
+            },
+            function () {
+
+                updateSidebarUnreadCount();
+
+            }
+        )
+        .subscribe();
+}
+
+listenForSidebarUnreadMessages();
+// ============================================================
+// UPDATE LAST SEEN
+// ============================================================
+
+async function updateLastSeen() {
+
+    try {
+
+        const {
+            data: {
+                user
+            }
+        } = await supabaseClient.auth.getUser();
+
+
+        if (!user) {
+            return;
+        }
+
+
+        const {
+            error
+        } = await supabaseClient
+            .from("profiles")
+            .update({
+                last_seen: new Date().toISOString()
+            })
+            .eq(
+                "id",
+                user.id
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Could not update last seen:",
+                error
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Last seen error:",
+            error
+        );
+
+    }
+}
+
+
+// Update when the page loads
+updateLastSeen();
+
+
+// Update every 60 seconds
+setInterval(
+    updateLastSeen,
+    60 * 1000
+);
+// =========================================================
+// GOODTIME - VIEW MY PROFILE
+// =========================================================
+
+const myProfilePage =
+    window.location.pathname.endsWith(
+        "view-my-profile.html"
+    );
+
+if (myProfilePage) {
+
+    loadMyProfile();
+
+}
+
+
+async function loadMyProfile() {
+
+    const user =
+        await getLoggedInUser();
+
+    if (!user) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    const {
+        data: profile,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
+
+
+    if (error) {
+
+        console.error(
+            "Error loading my profile:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    if (!profile) {
+
+        alert(
+            "You haven't created your profile yet."
+        );
+
+        window.location.href =
+            "profile.html";
+
+        return;
+
+    }
+
+
+    // ================================
+    // BASIC INFORMATION
+    // ================================
+
+    const nameElement =
+        document.getElementById(
+            "my-profile-name"
+        );
+
+    const ageElement =
+        document.getElementById(
+            "my-profile-age"
+        );
+
+    const genderElement =
+        document.getElementById(
+            "my-profile-gender"
+        );
+
+    const locationElement =
+        document.getElementById(
+            "my-profile-location"
+        );
+
+    const bioElement =
+        document.getElementById(
+            "my-profile-bio"
+        );
+
+
+    if (nameElement) {
+
+        nameElement.textContent =
+            profile.name || "—";
+
+    }
+
+    if (ageElement) {
+
+        ageElement.textContent =
+            profile.age || "—";
+
+    }
+
+    if (genderElement) {
+
+        genderElement.textContent =
+            profile.gender || "—";
+
+    }
+
+    if (locationElement) {
+
+        locationElement.textContent =
+            profile.location || "—";
+
+    }
+
+    if (bioElement) {
+
+        bioElement.textContent =
+            profile.bio || "No bio added yet.";
+
+    }
+
+
+    // ================================
+    // MAIN PROFILE PHOTO
+    // ================================
+
+    const mainPicture =
+        document.getElementById(
+            "my-profile-picture"
+        );
+
+
+    if (mainPicture) {
+
+        if (
+            profile["profile-pictures"]
+        ) {
+
+            mainPicture.src =
+                profile["profile-pictures"];
+
+            mainPicture.alt =
+                profile.name ||
+                "My profile picture";
+
+        } else {
+
+            mainPicture.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    // ================================
+    // ACTIVITY STATUS
+    // ================================
+
+    const activityElement =
+        document.getElementById(
+            "my-profile-activity"
+        );
+
+    const activityText =
+        document.getElementById(
+            "my-profile-activity-text"
+        );
+
+
+    if (
+        activityElement &&
+        activityText
+    ) {
+
+        const status =
+            getActivityStatus(
+                profile.last_seen
+            );
+
+
+        activityText.textContent =
+            status.text;
+
+
+        if (status.active) {
+
+            activityElement.classList.add(
+                "active"
+            );
+
+        } else {
+
+            activityElement.classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+
+
+    // ================================
+    // ADDITIONAL PHOTOS
+    // ================================
+
+    const gallery =
+        document.getElementById(
+            "my-profile-gallery"
+        );
+
+    const galleryGrid =
+        document.getElementById(
+            "my-profile-gallery-grid"
+        );
+
+
+    if (
+        gallery &&
+        galleryGrid
+    ) {
+
+        galleryGrid.innerHTML = "";
+
+
+        let additionalPhotos = [];
+
+
+        if (
+            profile["profile-photos"]
+        ) {
+
+            try {
+
+                additionalPhotos =
+                    JSON.parse(
+                        profile["profile-photos"]
+                    );
+
+            } catch (error) {
+
+                console.error(
+                    "Could not load additional photos:",
+                    error
+                );
+
+                additionalPhotos = [];
+
+            }
+
+        }
+
+
+        if (
+            Array.isArray(
+                additionalPhotos
+            ) &&
+            additionalPhotos.length > 0
+        ) {
+
+            gallery.style.display =
+                "block";
+
+
+            additionalPhotos.forEach(
+                function (photo) {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+                    item.className =
+                        "view-profile-gallery-item";
+
+
+                    const image =
+                        document.createElement(
+                            "img"
+                        );
+
+                    image.src =
+                        photo.url ||
+                        photo;
+
+                    image.alt =
+                        "Additional profile photo";
+
+                    image.className =
+                        "view-profile-gallery-image";
+
+
+                    item.appendChild(
+                        image
+                    );
+
+                    galleryGrid.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+        } else {
+
+            gallery.style.display =
+                "none";
+
+        }
+
+    }
+
+}

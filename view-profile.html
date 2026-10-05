@@ -55,30 +55,34 @@
 
 
         <a href="browse.html">
-            🏠 Home
+            🏠HOME
         </a>
 
-        <a href="messages.html">
-            💬 Messages
+        <a href="messages.html" class="messages-sidebar-link">
+            💬MESSAGES
+            <span id="sidebar-unread-count" class="sidebar-unread-count"></span>
         </a>
 
-        <a href="profile.html">
-            👤 My Profile
+        <a href="view-my-profile.html">
+            👤MY PROFILE
+        </a>
+                <a href="settings.html">
+            ⚙️SETTINGS
         </a>
         <div class="theme-section">
     <p class="theme-title">Appearance</p>
 
     <div class="theme-options">
         <button type="button" class="theme-option" data-theme="light">
-            ☀️ Light
+            ☀️Light
         </button>
 
         <button type="button" class="theme-option" data-theme="dark">
-            🌙 Dark
+            🌙Dark
         </button>
 
         <button type="button" class="theme-option" data-theme="system">
-            ⚙️ System
+            ⚙️System mode
         </button>
     </div>
 </div>
@@ -105,10 +109,13 @@
                 <!-- Profile information will appear here -->
             </div>
 
-            <a id="message-profile-button" class="btn">
+            <a
+                id="message-profile-button"
+                class="btn"
+                href="#"
+            >
                 💬 Message
             </a>
-
             <br><br>
 
             <a href="browse.html">

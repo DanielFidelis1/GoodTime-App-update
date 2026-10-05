@@ -74,27 +74,26 @@
     <nav class="sidebar-nav">
 
         <a href="browse.html">
-            🏠 Home
+            🏠HOME
         </a>
 
-        <a href="messages.html">
-            💬 Messages
+        <a href="view-my-profile.html">
+            👤MY PROFILE
         </a>
-
-        <a href="profile.html">
-            👤 My Profile
+                <a href="settings.html">
+            ⚙️SETTINGS
         </a>
         <div class="theme-section">
             <p class="theme-title">Appearance</p>
             <div class="theme-options">
                 <button type="button" class="theme-option" data-theme="light">
-                    ☀️ Light
+                    ☀️Light
                 </button>
                 <button type="button" class="theme-option" data-theme="dark">
-                    🌙 Dark
+                    🌙Dark
                 </button>
                 <button type="button" class="theme-option" data-theme="system">
-                    ⚙️ System
+                    ⚙️System mode
                 </button>
             </div>
         </div>
@@ -131,13 +130,31 @@
                         YOUR INBOX
                     </span>
 
-                    <h2>
-                        Messages
-                    </h2>
+                    <div class="messages-title-row">
+                        <div>
+                            <h2>Messages</h2>
+                            <p>Stay connected with your conversations.</p>
+                        </div>
+                    </div>
+                </div>
+                <a
+                href="browse.html"
+                class="messages-new-chat-button"
+                >
+                + New Chat
+            </a>
+        </div>
+        <div class="messages-search-wrapper">
+    <span class="messages-search-icon">🔍</span>
 
-                    <p>
-                        Keep the conversation going.
-                    </p>
+    <input
+        type="text"
+        id="conversation-search"
+        class="conversation-search"
+        placeholder="Search conversations..."
+        autocomplete="off"
+    >
+</div>
 
                 </div>
 
@@ -149,24 +166,6 @@
             </div>
 
 
-            <!-- ================================
-                 SEARCH
-            ================================= -->
-
-            <div class="message-search">
-
-                <span class="message-search-icon">
-                    🔍
-                </span>
-
-                <input
-                    type="text"
-                    id="conversation-search"
-                    placeholder="Search conversations..."
-                    autocomplete="off"
-                >
-
-            </div>
 
 
             <!-- ================================
@@ -178,34 +177,6 @@
                 <!-- Conversations will appear here -->
 
             </div>
-
-
-            <!-- ================================
-                 EMPTY STATE
-            ================================= -->
-
-            <div
-                id="empty-conversations"
-                class="empty-conversations"
-            >
-
-                <div class="empty-message-icon">
-                    💬
-                </div>
-
-                <h3>
-                    No conversations yet
-                </h3>
-
-                <p>
-                    Start connecting with people on
-                    GoodTime and your conversations
-                    will appear here.
-                </p>
-
-
-            </div>
-
 
         </section>
 

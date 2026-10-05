@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Settings - GoodTime</title>
+
+<link rel="stylesheet" href="style.css">
+<style>
+/* =========================================================
+   GOODTIME SETTINGS - PAGE SPECIFIC DESIGN
+   ========================================================= */
+
+.settings-main {
+    min-height: calc(100vh - 70px);
+    padding: 30px 20px 60px;
+    background: #f6f7fb;
+}
+
+.settings-section {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.settings-heading {
+    margin-bottom: 25px;
+}
+
+.settings-heading h2 {
+    margin: 0 0 6px;
+    font-size: 28px;
+    color: #222;
+}
+
+.settings-heading p {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.settings-group {
+    background: #fff;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.settings-group h3 {
+    margin: 0;
+    padding: 17px 20px 10px;
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+}
+
+.settings-item {
+    width: 100%;
+    min-height: 72px;
+    padding: 15px 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    border: none;
+    border-top: 1px solid #eeeeee;
+
+    background: #fff;
+    color: #222;
+
+    text-decoration: none;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.settings-item:hover {
+    background: #fafafa;
+}
+
+.settings-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+    background: #fff0f4;
+
+    font-size: 20px;
+}
+
+.settings-item-text {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.settings-item-text strong {
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+}
+
+.settings-item-text small {
+    font-size: 12px;
+    color: #888;
+}
+
+.settings-arrow {
+    font-size: 25px;
+    color: #aaa;
+    flex-shrink: 0;
+}
+
+.settings-switch {
+    position: relative;
+    width: 46px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+.settings-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.settings-slider {
+    position: absolute;
+    inset: 0;
+
+    background: #d6d6d6;
+    border-radius: 30px;
+
+    cursor: pointer;
+    transition: .25s;
+}
+
+.settings-slider::before {
+    content: "";
+
+    position: absolute;
+
+    width: 20px;
+    height: 20px;
+
+    left: 3px;
+    top: 3px;
+
+    background: #fff;
+    border-radius: 50%;
+
+    transition: .25s;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+
+.settings-switch input:checked + .settings-slider {
+    background: #e86b89;
+}
+
+.settings-switch input:checked + .settings-slider::before {
+    transform: translateX(20px);
+}
+
+/* DELETE ACCOUNT */
+
+.danger-zone {
+    border-color: #f1d7dc;
+}
+
+.danger-item .settings-icon {
+    background: #fff0f2;
+}
+
+.danger-item .settings-item-text strong {
+    color: #d94f70;
+}
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+body.dark-mode .settings-main {
+    background: #121212;
+}
+
+body.dark-mode .settings-heading h2 {
+    color: #fff;
+}
+
+body.dark-mode .settings-heading p {
+    color: #999;
+}
+
+body.dark-mode .settings-group {
+    background: #1e1e1e;
+    border-color: #333;
+    box-shadow: none;
+}
+
+body.dark-mode .settings-group h3 {
+    color: #999;
+}
+
+body.dark-mode .settings-item {
+    background: #1e1e1e;
+    color: #fff;
+    border-top-color: #333;
+}
+
+body.dark-mode .settings-item:hover {
+    background: #262626;
+}
+
+body.dark-mode .settings-item-text strong {
+    color: #fff;
+}
+
+body.dark-mode .settings-item-text small {
+    color: #999;
+}
+
+body.dark-mode .settings-arrow {
+    color: #777;
+}
+
+body.dark-mode .settings-icon {
+    background: #302126;
+}
+
+body.dark-mode .danger-zone {
+    border-color: #4a2a31;
+}
+
+body.dark-mode .danger-item .settings-item-text strong {
+    color: #ff8fa8;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .settings-main {
+        padding: 25px 14px 45px;
+    }
+
+    .settings-heading h2 {
+        font-size: 24px;
+    }
+
+    .settings-group {
+        border-radius: 14px;
+        margin-bottom: 16px;
+    }
+
+    .settings-item {
+        min-height: 68px;
+        padding: 13px 15px;
+    }
+
+    .settings-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .settings-item-text strong {
+        font-size: 14px;
+    }
+
+    .settings-item-text small {
+        font-size: 11px;
+    }
+}
+/* =========================================================
+   GOODTIME SETTINGS HEADER + SIDEBAR FIX
+   ========================================================= */
+
+.goodtime-header {
+    width: 100%;
+    height: 70px;
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+
+    position: relative;
+    z-index: 1000;
+
+    border-bottom: 1px solid #eeeeee;
+    box-sizing: border-box;
+}
+
+.header-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    padding: 0 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.goodtime-header h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #e86b89;
+}
+
+.menu-button {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #333;
+
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.menu-button:hover {
+    background: #f5f5f5;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.goodtime-sidebar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 280px;
+    height: 100vh;
+
+    background: #ffffff;
+
+    z-index: 2000;
+
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.12);
+
+    overflow-y: auto;
+}
+
+.goodtime-sidebar.open {
+    transform: translateX(0);
+}
+
+
+/* Sidebar header */
+
+.sidebar-header {
+    height: 70px;
+
+    padding: 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #eeeeee;
+    box-sizing: border-box;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+
+    font-size: 21px;
+    font-weight: 700;
+
+    color: #e86b89;
+}
+
+.sidebar-close {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #333;
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+.sidebar-close:hover {
+    background: #f5f5f5;
+}
+
+
+/* Sidebar navigation */
+
+.sidebar-nav {
+    padding: 15px 12px 25px;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 48px;
+
+    padding: 0 14px;
+    margin-bottom: 5px;
+
+    box-sizing: border-box;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    color: #333;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: background 0.2s ease;
+}
+
+.sidebar-nav a:hover {
+    background: #f7f7f7;
+}
+
+
+/* Logout */
+
+.sidebar-logout {
+    width: 100%;
+
+    min-height: 48px;
+
+    margin-top: 12px;
+
+    padding: 0 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #d94f70;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.sidebar-logout:hover {
+    background: #fff0f3;
+}
+
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.sidebar-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 1500;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: 0.25s ease;
+}
+
+.sidebar-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+body.dark-mode .goodtime-header {
+    background: #1b1b1b;
+    border-bottom-color: #333;
+}
+
+body.dark-mode .goodtime-header h1 {
+    color: #ff8fa8;
+}
+
+body.dark-mode .menu-button {
+    color: #fff;
+}
+
+body.dark-mode .menu-button:hover {
+    background: #292929;
+}
+
+body.dark-mode .goodtime-sidebar {
+    background: #1b1b1b;
+}
+
+body.dark-mode .sidebar-header {
+    border-bottom-color: #333;
+}
+
+body.dark-mode .sidebar-header h2 {
+    color: #ff8fa8;
+}
+
+body.dark-mode .sidebar-close {
+    color: #fff;
+}
+
+body.dark-mode .sidebar-close:hover {
+    background: #292929;
+}
+
+body.dark-mode .sidebar-nav a {
+    color: #f1f1f1;
+}
+
+body.dark-mode .sidebar-nav a:hover {
+    background: #292929;
+}
+
+body.dark-mode .sidebar-logout:hover {
+    background: #302126;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .goodtime-header {
+        height: 64px;
+    }
+
+    .header-content {
+        padding: 0 15px;
+    }
+
+    .goodtime-header h1 {
+        font-size: 20px;
+    }
+
+    .menu-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .goodtime-sidebar {
+        width: 285px;
+    }
+
+    .sidebar-header {
+        height: 64px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ================================
+     GOODTIME HEADER
+     ================================= -->
+
+<header class="goodtime-header">
+
+    <div class="header-content">
+
+        <h1>GoodTime</h1>
+
+        <button
+            id="menu-button"
+            class="menu-button"
+            type="button"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ================================
+     SIDEBAR OVERLAY
+     ================================= -->
+
+<div
+    id="sidebar-overlay"
+    class="sidebar-overlay"
+></div>
+
+
+<!-- ================================
+     SIDEBAR
+     ================================= -->
+
+<aside
+    id="goodtime-sidebar"
+    class="goodtime-sidebar"
+>
+
+    <div class="sidebar-header">
+
+        <h2>GoodTime</h2>
+
+        <button
+            id="sidebar-close"
+            class="sidebar-close"
+            type="button"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <a href="browse.html">
+            🏠HOME
+        </a>
+
+        <a href="messages.html" class="messages-sidebar-link">
+            💬MESSAGES
+            <span id="sidebar-unread-count" class="sidebar-unread-count"></span>
+        </a>
+
+        <a href="view-my-profile.html">
+            👤MY PROFILE
+        </a>
+
+
+        <!-- Appearance -->
+
+        <div class="theme-section">
+
+            <p class="theme-title">
+                Appearance
+            </p>
+
+            <div class="theme-options">
+
+                <button
+                    type="button"
+                    class="theme-option"
+                    data-theme="light"
+                >
+                    ☀️Light
+                </button>
+
+                <button
+                    type="button"
+                    class="theme-option"
+                    data-theme="dark"
+                >
+                    🌙Dark
+                </button>
+
+                <button
+                    type="button"
+                    class="theme-option"
+                    data-theme="system"
+                >
+                    ⚙️System mode
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Logout -->
+
+        <button
+            id="logout-button"
+            class="sidebar-logout"
+            type="button"
+        >
+            🚪 Logout
+        </button>
+
+    </nav>
+
+</aside>
+
+
+<!-- ================================
+     SETTINGS
+     ================================= -->
+
+<main class="settings-main">
+
+    <section class="settings-section">
+
+        <div class="settings-heading">
+
+            <h2>Settings</h2>
+
+            <p>
+                Manage your GoodTime account and preferences.
+            </p>
+
+        </div>
+
+
+        <!-- ACCOUNT -->
+
+        <div class="settings-group">
+
+            <h3>Account</h3>
+
+            <a
+                href="profile.html"
+                class="settings-item"
+            >
+
+                <span class="settings-icon">
+                    👤
+                </span>
+
+                <span class="settings-item-text">
+
+                    <strong>
+                        My Profile
+                    </strong>
+
+                    <small>
+                        Edit your profile information
+                    </small>
+
+                </span>
+
+                <span class="settings-arrow">
+                    ›
+                </span>
+
+            </a>
+
+
+            <button
+                type="button"
+                class="settings-item"
+                id="change-password-button"
+            >
+
+                <span class="settings-icon">
+                    🔐
+                </span>
+
+                <span class="settings-item-text">
+
+                    <strong>
+                        Change Password
+                    </strong>
+
+                    <small>
+                        Update your account password
+                    </small>
+
+                </span>
+
+                <span class="settings-arrow">
+                    ›
+                </span>
+
+            </button>
+
+        </div>
+
+    
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div class="settings-group">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <div class="settings-item">
+
+                <span class="settings-icon">
+                    🔔
+                </span>
+
+                <span class="settings-item-text">
+
+                    <strong>
+                        Message Notifications
+                    </strong>
+
+                    <small>
+                        Get notified about new messages
+                    </small>
+
+                </span>
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="message-notifications"
+                        checked
+                    >
+
+                    <span class="settings-slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRIVACY -->
+
+        <div class="settings-group">
+
+            <h3>
+                Privacy & Safety
+            </h3>
+
+            <button
+                type="button"
+                class="settings-item"
+                id="blocked-users-button"
+            >
+
+                <span class="settings-icon">
+                    🚫
+                </span>
+
+                <span class="settings-item-text">
+
+                    <strong>
+                        Blocked Users
+                    </strong>
+
+                    <small>
+                        Manage people you have blocked
+                    </small>
+
+                </span>
+
+                <span class="settings-arrow">
+                    ›
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- ACCOUNT ACTIONS -->
+
+        <div class="settings-group danger-zone">
+
+            <h3>
+                Account Actions
+            </h3>
+
+            <button
+                type="button"
+                class="settings-item danger-item"
+                id="delete-account-button"
+            >
+
+                <span class="settings-icon">
+                    🗑️
+                </span>
+
+                <span class="settings-item-text">
+
+                    <strong>
+                        Delete Account
+                    </strong>
+
+                    <small>
+                        Permanently delete your GoodTime account
+                    </small>
+
+                </span>
+
+                <span class="settings-arrow">
+                    ›
+                </span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- SUPABASE -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<script src="js/app.js"></script>
+```
+
+</body>
+
+</html>

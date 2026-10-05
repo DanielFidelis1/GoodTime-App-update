@@ -2116,73 +2116,105 @@ footer {
     line-height: 1;
     cursor: pointer;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
 .menu-button:hover {
     background: #fff5f5;
     transform: translateY(-1px);
-    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
 }
 
 .menu-button:active {
     transform: scale(0.96);
 }
 
-/* Dark background behind the sidebar */
+/* Dark overlay */
 .sidebar-overlay {
-    display: none;
     position: fixed;
     inset: 0;
     z-index: 9998;
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.4);
+
     opacity: 0;
-    transition: opacity 0.25s ease;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity 0.25s ease,
+                visibility 0.25s ease;
 }
 
-/* Sidebar */
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
 .goodtime-sidebar {
     position: fixed;
+
     top: 0;
-    right: 0;
-    z-index: 9999;
+    left: 0;
+
     width: 280px;
-    max-width: 85%;
+    max-width: 85vw;
     height: 100vh;
-    box-sizing: border-box;
+
     padding: 25px 20px;
-    background: white;
-    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.12);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    z-index: 9999;
+
     overflow-y: auto;
+    overflow-x: hidden;
+
+    transform: translateX(-105%);
+
+    visibility: hidden;
+    pointer-events: none;
+
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.15);
+
+    transition:
+        transform 0.3s ease,
+        visibility 0.3s ease;
 }
 
-/* Open state */
+/* Sidebar OPEN */
 .goodtime-sidebar.open {
     transform: translateX(0);
+
+    visibility: visible;
+    pointer-events: auto;
 }
 
+/* Overlay OPEN */
 .sidebar-overlay.open {
-    display: block;
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
-/* Sidebar top */
+/* =========================================================
+   SIDEBAR HEADER
+========================================================= */
+
 .sidebar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     padding-bottom: 20px;
     margin-bottom: 20px;
+
     border-bottom: 1px solid #eeeeee;
 }
 
 .sidebar-header h2 {
     margin: 0;
+
     color: #222;
     font-size: 24px;
     font-weight: 700;
@@ -2192,15 +2224,22 @@ footer {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     width: 38px;
     height: 38px;
+
     padding: 0;
+
     border: none;
     border-radius: 50%;
+
     background: #f7f7f7;
     color: #444;
+
     font-size: 24px;
+
     cursor: pointer;
+
     transition:
         background 0.2s ease,
         transform 0.2s ease;
@@ -2211,7 +2250,10 @@ footer {
     transform: scale(1.05);
 }
 
-/* Navigation */
+/* =========================================================
+   SIDEBAR NAVIGATION
+========================================================= */
+
 .sidebar-nav {
     display: flex;
     flex-direction: column;
@@ -2222,19 +2264,29 @@ footer {
 .sidebar-logout {
     display: flex;
     align-items: center;
+
     width: 100%;
+    min-height: 46px;
+
     box-sizing: border-box;
+
     padding: 13px 14px;
+
     border: none;
     border-radius: 11px;
+
     background: transparent;
     color: #333;
-    text-decoration: none;
+
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;
+
     text-align: left;
+    text-decoration: none;
+
     cursor: pointer;
+
     transition:
         background 0.2s ease,
         color 0.2s ease,
@@ -2245,11 +2297,12 @@ footer {
 .sidebar-logout:hover {
     background: #fff3f3;
     color: #c86f6f;
-    transform: translateX(-2px);
+    transform: translateX(2px);
 }
 
 .sidebar-logout {
     margin-top: 10px;
+
     background: #222;
     color: white;
 }
@@ -2259,10 +2312,15 @@ footer {
     color: white;
 }
 
-/* Mobile */
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
 @media (max-width: 600px) {
+
     .goodtime-sidebar {
         width: 290px;
+        max-width: 88vw;
         padding: 22px 16px;
     }
 
@@ -2271,55 +2329,6 @@ footer {
         height: 40px;
         font-size: 21px;
     }
-}
-/* =========================================================
-   GOODTIME THEME SELECTOR
-   ========================================================= */
-
-.theme-section {
-    margin-top: 20px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.theme-title {
-    margin: 0 0 10px;
-    padding: 0 20px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #777;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.theme-options {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 0 12px;
-}
-
-.theme-option {
-    width: 100%;
-    padding: 11px 14px;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    color: #333;
-    font-size: 14px;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.theme-option:hover {
-    background: #f3f3f3;
-}
-
-.theme-option.active {
-    background: #ffe8ed;
-    color: #d94f70;
-    font-weight: 600;
 }
 
 /* =========================================================
@@ -2512,4 +2521,1145 @@ body.dark-mode .chat-input input::placeholder,
 body.dark-mode .chat-input textarea::placeholder,
 body.dark-mode #message-input::placeholder {
     color: #999;
+}
+/* =========================================================
+   GOODTIME - ADDITIONAL PROFILE PHOTOS
+   ========================================================= */
+
+.profile-photos-section {
+    margin-top: 25px;
+}
+
+.profile-photos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.profile-photo-item {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    border-radius: 14px;
+
+    background: #f3f3f3;
+
+    border: 1px solid #eeeeee;
+}
+
+.profile-photo-item img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+.add-profile-photo-button {
+    margin-top: 15px;
+
+    padding: 12px 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #e86b89;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.add-profile-photo-button:hover {
+    background: #d95776;
+    transform: translateY(-1px);
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .profile-photos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+}
+/* =========================================================
+   ADDITIONAL PHOTO DELETE BUTTON
+   ========================================================= */
+
+.profile-photo-item {
+    position: relative;
+}
+
+.delete-profile-photo {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+
+    width: 28px;
+    height: 28px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+
+    font-size: 20px;
+    line-height: 28px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s ease;
+}
+
+.delete-profile-photo:hover {
+    background: #e86b89;
+    transform: scale(1.08);
+}
+/* =========================================================
+   GOODTIME - VIEW PROFILE PHOTO GALLERY
+   ========================================================= */
+
+.view-profile-main-photo-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.view-profile-picture {
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 20px;
+    cursor: pointer;
+    display: block;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease;
+}
+
+.view-profile-picture:hover {
+    transform: scale(1.01);
+}
+
+
+/* Gallery */
+
+.view-profile-gallery {
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.view-profile-gallery-title {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+
+.view-profile-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+
+.view-profile-gallery-item {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #f3f3f3;
+}
+
+
+.view-profile-gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+
+.view-profile-gallery-image:hover {
+    transform: scale(1.05);
+}
+
+
+/* Profile information */
+
+.view-profile-info {
+    margin-top: 10px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .view-profile-picture {
+        max-width: 100%;
+        border-radius: 16px;
+    }
+
+    .view-profile-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .view-profile-gallery-item {
+        border-radius: 12px;
+    }
+
+}
+/* =========================================================
+   SIDEBAR UNREAD MESSAGE BADGE
+========================================================= */
+
+.messages-sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.sidebar-unread-count {
+    display: none;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+
+    box-sizing: border-box;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50px;
+
+    background: #e79292;
+    color: white;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.sidebar-unread-count.show {
+    display: inline-flex;
+}
+/* =========================================================
+   GOODTIME MODERN CONVERSATION CARDS
+========================================================= */
+
+.conversation-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #eeeeee;
+    border-radius: 16px;
+
+    text-decoration: none;
+    color: inherit;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.conversation-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.08);
+
+    background: #fffafa;
+}
+
+
+/* Avatar */
+
+.conversation-avatar-wrapper {
+    position: relative;
+
+    flex-shrink: 0;
+
+    width: 54px;
+    height: 54px;
+}
+
+
+.conversation-avatar,
+.conversation-avatar-placeholder {
+    width: 54px;
+    height: 54px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+
+.conversation-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f1f1f1;
+
+    font-size: 24px;
+}
+
+
+/* Unread indicator */
+
+.conversation-status-dot {
+    position: absolute;
+
+    right: 1px;
+    bottom: 1px;
+
+    width: 13px;
+    height: 13px;
+
+    border: 2px solid white;
+
+    border-radius: 50%;
+
+    background: #e79292;
+}
+
+
+/* Conversation content */
+
+.conversation-content {
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.conversation-top-row,
+.conversation-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+
+.conversation-top-row strong {
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #222;
+
+    font-size: 15px;
+}
+
+
+.conversation-top-row small {
+    flex-shrink: 0;
+
+    color: #999;
+
+    font-size: 11px;
+}
+
+
+/* Message preview */
+
+.conversation-preview {
+    display: block;
+
+    overflow: hidden;
+
+    flex: 1;
+
+    color: #888;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* Unread conversation */
+
+.conversation-unread {
+    border-color: #f1c4c4;
+
+    background: #fffafa;
+}
+
+
+.conversation-unread
+.conversation-top-row strong {
+    font-weight: 700;
+
+    color: #222;
+}
+
+
+.conversation-unread
+.conversation-preview {
+    color: #555;
+
+    font-weight: 600;
+}
+
+
+/* Unread badge */
+
+.conversation-unread-badge {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    min-width: 21px;
+    height: 21px;
+
+    padding: 0 6px;
+
+    box-sizing: border-box;
+
+    border-radius: 50px;
+
+    background: #e79292;
+
+    color: white;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .conversation-card {
+        padding: 13px;
+
+        border-radius: 14px;
+    }
+
+    .conversation-avatar,
+    .conversation-avatar-placeholder,
+    .conversation-avatar-wrapper {
+        width: 50px;
+        height: 50px;
+    }
+
+    .conversation-top-row strong {
+        font-size: 14px;
+    }
+
+    .conversation-preview {
+        font-size: 12px;
+    }
+}
+/* =========================================================
+   GOODTIME MESSAGES HEADER
+========================================================= */
+
+.messages-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 24px;
+}
+
+.messages-title-row h2 {
+    margin: 0 0 6px;
+
+    color: #222;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.messages-title-row p {
+    margin: 0;
+
+    color: #888;
+
+    font-size: 14px;
+}
+
+.messages-new-chat-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 40px;
+
+    padding: 0 16px;
+
+    box-sizing: border-box;
+
+    border-radius: 10px;
+
+    background: #e79292;
+    color: white;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.messages-new-chat-button:hover {
+    background: #d97f7f;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(231, 146, 146, 0.25);
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .messages-title-row {
+        align-items: flex-start;
+    }
+
+    .messages-title-row h2 {
+        font-size: 24px;
+    }
+
+    .messages-title-row p {
+        font-size: 13px;
+    }
+
+    .messages-new-chat-button {
+        min-height: 36px;
+
+        padding: 0 12px;
+
+        font-size: 12px;
+    }
+}
+/* =========================================================
+   CONVERSATION SEARCH
+========================================================= */
+
+.messages-search-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    margin-bottom: 18px;
+}
+
+.messages-search-icon {
+    position: absolute;
+
+    left: 14px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 15px;
+
+    pointer-events: none;
+}
+
+.conversation-search {
+    width: 100%;
+
+    height: 46px;
+
+    box-sizing: border-box;
+
+    padding: 0 15px 0 42px;
+
+    border: 1px solid #eeeeee;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #f8f8f8;
+
+    color: #333;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.conversation-search::placeholder {
+    color: #999;
+}
+
+.conversation-search:focus {
+    background: white;
+
+    border-color: #e79292;
+
+    box-shadow:
+        0 0 0 3px rgba(231, 146, 146, 0.12);
+}
+/* =========================================================
+   NO SEARCH RESULTS
+========================================================= */
+
+.messages-search-empty {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    color: #888;
+}
+
+.messages-search-empty .messages-empty-icon {
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+.messages-search-empty h3 {
+    margin: 0 0 6px;
+
+    color: #333;
+
+    font-size: 17px;
+}
+
+.messages-search-empty p {
+    margin: 0;
+
+    font-size: 13px;
+}
+/* =========================================================
+   GOODTIME MESSAGES - MOBILE POLISH
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .messages-main {
+        padding: 20px 14px;
+    }
+
+    .messages-section {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 14px;
+        box-sizing: border-box;
+        border-radius: 18px;
+    }
+
+    .messages-title-row {
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .messages-title-row h2 {
+        font-size: 23px;
+    }
+
+    .messages-title-row p {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .messages-new-chat-button {
+        flex-shrink: 0;
+        min-height: 38px;
+        padding: 0 11px;
+        font-size: 11px;
+        border-radius: 9px;
+    }
+
+    .messages-search-wrapper {
+        margin-bottom: 14px;
+    }
+
+    .conversation-search {
+        height: 44px;
+        font-size: 13px;
+    }
+
+    .conversation-card {
+        gap: 11px;
+        padding: 12px;
+        margin-bottom: 8px;
+        border-radius: 14px;
+    }
+
+    .conversation-avatar-wrapper {
+        width: 48px;
+        height: 48px;
+    }
+
+    .conversation-avatar,
+    .conversation-avatar-placeholder {
+        width: 48px;
+        height: 48px;
+    }
+
+    .conversation-top-row {
+        gap: 7px;
+    }
+
+    .conversation-top-row strong {
+        font-size: 14px;
+    }
+
+    .conversation-top-row small {
+        font-size: 10px;
+    }
+
+    .conversation-preview {
+        font-size: 12px;
+    }
+
+    .conversation-unread-badge {
+        min-width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+}
+/* =========================================================
+   PROFILE ACTIVITY STATUS
+========================================================= */
+
+.profile-activity-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-bottom: 15px;
+
+    padding: 6px 10px;
+
+    border-radius: 50px;
+
+    background: #f3f3f3;
+
+    color: #777;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.activity-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #aaa;
+}
+
+.profile-activity-status.active {
+    background: #eef9f1;
+
+    color: #2d8a4a;
+}
+
+.profile-activity-status.active
+.activity-dot {
+    background: #3dbb62;
+
+    box-shadow:
+        0 0 0 3px rgba(61, 187, 98, 0.12);
+}
+/* =========================================================
+   GOODTIME CHAT HEADER - FIXED SIZE
+========================================================= */
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 72px;
+    height: 72px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.chat-user-heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.chat-user-heading h2 {
+    margin: 0;
+    padding: 0;
+    line-height: 20px;
+    height: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chat-user-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    height: 15px;
+    line-height: 15px;
+    color: #888;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.chat-status-dot {
+    flex: 0 0 7px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #aaa;
+}
+
+.chat-user-status.active {
+    color: #2d8a4a;
+}
+
+.chat-user-status.active .chat-status-dot {
+    background: #3dbb62;
+    box-shadow: 0 0 0 3px rgba(61, 187, 98, 0.12);
+}
+
+/* Prevent the back button from being squeezed */
+.chat-header > * {
+    flex-shrink: 0;
+}
+
+.chat-header .chat-user-heading {
+    flex-shrink: 1;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .chat-header {
+        min-height: 68px;
+        height: 68px;
+    }
+
+    .chat-user-heading {
+        height: 48px;
+    }
+
+    .chat-user-heading h2 {
+        line-height: 19px;
+        height: 19px;
+    }
+
+    .chat-user-status {
+        height: 14px;
+        line-height: 14px;
+        font-size: 10px;
+    }
+}
+/* =========================================================
+   GOODTIME CHAT STRUCTURE FIX
+========================================================= */
+
+.chat-main {
+    min-height: calc(100vh - 70px);
+    box-sizing: border-box;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 70px);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Header */
+.chat-header {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 100%;
+    min-height: 72px;
+    height: 72px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* User information */
+.chat-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.chat-user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    flex: 1;
+}
+
+.chat-user-heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    min-width: 0;
+    height: 38px;
+}
+
+.chat-user-heading h2 {
+    margin: 0;
+    padding: 0;
+    line-height: 20px;
+    height: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chat-user-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 15px;
+    line-height: 15px;
+    color: #888;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+/* Messages area */
+#messages-container {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* Typing indicator */
+#typing-indicator {
+    flex-shrink: 0;
+}
+
+/* Message input */
+#message-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 15px;
+    background: #ffffff;
+    border-top: 1px solid #eeeeee;
+}
+
+#message-input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 0 14px;
+    border: 1px solid #dddddd;
+    border-radius: 12px;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+#message-input:focus {
+    border-color: #e79292;
+    box-shadow: 0 0 0 3px rgba(231, 146, 146, 0.12);
+}
+
+#message-form .btn {
+    flex-shrink: 0;
+    height: 42px;
+    padding: 0 18px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .chat-container {
+        height: calc(100vh - 60px);
+    }
+
+    .chat-header {
+        min-height: 68px;
+        height: 68px;
+    }
+
+    #message-form {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    #message-input {
+        height: 40px;
+        font-size: 13px;
+    }
+
+    #message-form .btn {
+        height: 40px;
+        padding: 0 14px;
+    }
+}
+/* =========================================================
+   GOODTIME - MESSAGE FORM FINAL FIX
+========================================================= */
+
+#message-form {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 64px !important;
+    margin: 0 !important;
+    padding: 10px 15px !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    border-top: 1px solid #eeeeee !important;
+}
+
+#message-input {
+    flex: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#message-form .btn {
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+}
+/* =========================================================
+   GOODTIME - MY PROFILE VIEW
+========================================================= */
+
+.profile-view-value {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #eeeeee;
+    border-radius: 11px;
+    background: #f8f8f8;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.profile-view-bio {
+    min-height: 70px;
+    white-space: pre-wrap;
+}
+
+.profile-view-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.profile-view-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+#my-profile-picture {
+    background: #f3f3f3;
+}
+
+#my-profile-gallery:empty {
+    display: none;
+}
+
+#my-profile-gallery-grid:empty {
+    display: none;
+}
+
+@media (max-width: 600px) {
+
+    .profile-view-value {
+        font-size: 13px;
+        padding: 12px;
+    }
+
+    .profile-view-actions .btn {
+        width: 100%;
+    }
 }

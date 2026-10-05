@@ -71,15 +71,19 @@
 
 
         <a href="browse.html">
-            🏠 Home
+            🏠HOME
         </a>
 
-        <a href="messages.html">
-            💬 Messages
+        <a href="messages.html" class="messages-sidebar-link">
+            💬MESSAGES
+            <span id="sidebar-unread-count" class="sidebar-unread-count"></span>
         </a>
 
-        <a href="profile.html">
-            👤 My Profile
+        <a href="view-my-profile.html">
+            👤MY PROFILE
+        </a>
+                <a href="settings.html">
+            ⚙️SETTINGS
         </a>
 
         <div class="theme-section">
@@ -87,15 +91,15 @@
 
     <div class="theme-options">
         <button type="button" class="theme-option" data-theme="light">
-            ☀️ Light
+            ☀️Light
         </button>
 
         <button type="button" class="theme-option" data-theme="dark">
-            🌙 Dark
+            🌙Dark
         </button>
 
         <button type="button" class="theme-option" data-theme="system">
-            ⚙️ System
+            ⚙️System mode
         </button>
     </div>
 </div>
@@ -279,6 +283,50 @@
                 >
 
             </div>
+            <!-- ================================
+     ADDITIONAL PROFILE PHOTOS
+================================= -->
+
+<div class="profile-photos-section">
+
+    <div class="section-heading">
+
+        <h3>
+            More photos
+        </h3>
+
+        <p>
+            Add up to 4 more photos to your profile.
+        </p>
+
+    </div>
+
+
+    <div
+        id="profile-photos-grid"
+        class="profile-photos-grid"
+    >
+
+        <!-- Additional photos will appear here -->
+
+    </div>
+
+
+    <button
+        type="button"
+        id="add-profile-photo-button"
+        class="add-profile-photo-button"
+    >
+        ＋ Add Photo
+    </button>
+
+</div>
+<input
+    type="file"
+    id="profile-photo-input"
+    accept="image/*"
+    hidden
+>
 
 
             <!-- ================================
