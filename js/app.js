@@ -2886,3 +2886,95 @@ if (sidebarClose) {
 if (sidebarOverlay) {
     sidebarOverlay.addEventListener("click", closeSidebar);
 }
+// =========================================================
+// GOODTIME THEME SYSTEM
+// =========================================================
+
+(function () {
+
+    const themeButtons =
+        document.querySelectorAll(".theme-option");
+
+    function applyTheme(theme) {
+
+        if (theme === "dark") {
+            document.body.classList.add("dark-mode");
+
+        } else if (theme === "light") {
+            document.body.classList.remove("dark-mode");
+
+        } else if (theme === "system") {
+
+            const systemDark =
+                window.matchMedia(
+                    "(prefers-color-scheme: dark)"
+                ).matches;
+
+            document.body.classList.toggle(
+                "dark-mode",
+                systemDark
+            );
+        }
+
+        // Highlight selected option
+        themeButtons.forEach(function (button) {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.theme === theme
+            );
+
+        });
+    }
+
+    // Get saved theme
+    let savedTheme =
+        localStorage.getItem("goodtime-theme");
+
+    if (!savedTheme) {
+        savedTheme = "system";
+    }
+
+    applyTheme(savedTheme);
+
+    // Theme button clicks
+    themeButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const selectedTheme =
+                button.dataset.theme;
+
+            localStorage.setItem(
+                "goodtime-theme",
+                selectedTheme
+            );
+
+            applyTheme(selectedTheme);
+        });
+
+    });
+
+    // Update automatically when System mode is selected
+    const systemPreference =
+        window.matchMedia(
+            "(prefers-color-scheme: dark)"
+        );
+
+    systemPreference.addEventListener(
+        "change",
+        function () {
+
+            const currentTheme =
+                localStorage.getItem(
+                    "goodtime-theme"
+                );
+
+            if (currentTheme === "system") {
+                applyTheme("system");
+            }
+
+        }
+    );
+
+})();

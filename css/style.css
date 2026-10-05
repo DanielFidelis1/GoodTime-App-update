@@ -2272,3 +2272,244 @@ footer {
         font-size: 21px;
     }
 }
+/* =========================================================
+   GOODTIME THEME SELECTOR
+   ========================================================= */
+
+.theme-section {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.theme-title {
+    margin: 0 0 10px;
+    padding: 0 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.theme-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 12px;
+}
+
+.theme-option {
+    width: 100%;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #333;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.theme-option:hover {
+    background: #f3f3f3;
+}
+
+.theme-option.active {
+    background: #ffe8ed;
+    color: #d94f70;
+    font-weight: 600;
+}
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+body.dark-mode {
+    background: #121212;
+    color: #f5f5f5;
+}
+
+body.dark-mode .goodtime-header {
+    background: #1b1b1b;
+    color: #fff;
+}
+
+body.dark-mode .goodtime-sidebar {
+    background: #1b1b1b;
+    color: #fff;
+}
+
+body.dark-mode .sidebar-header {
+    border-bottom-color: #333;
+}
+
+body.dark-mode .sidebar-nav a {
+    color: #f1f1f1;
+}
+
+body.dark-mode .sidebar-nav a:hover {
+    background: #292929;
+}
+
+body.dark-mode .theme-section {
+    border-top-color: #333;
+}
+
+body.dark-mode .theme-title {
+    color: #999;
+}
+
+body.dark-mode .theme-option {
+    color: #f1f1f1;
+}
+
+body.dark-mode .theme-option:hover {
+    background: #292929;
+}
+
+body.dark-mode .theme-option.active {
+    background: #4a2630;
+    color: #ff8fa8;
+}
+/* =========================================================
+   GOODTIME - FULL DARK MODE
+   ========================================================= */
+
+body.dark-mode main,
+body.dark-mode .messages-main,
+body.dark-mode .chat-main,
+body.dark-mode .profile-main,
+body.dark-mode .view-profile-main {
+    background: #121212;
+    color: #f5f5f5;
+}
+
+/* Main cards and sections */
+body.dark-mode .profile-card,
+body.dark-mode .profile-section,
+body.dark-mode .messages-section,
+body.dark-mode .conversation-card,
+body.dark-mode .chat-container,
+body.dark-mode .chat-box,
+body.dark-mode .view-profile-card,
+body.dark-mode .form-section,
+body.dark-mode .auth-container,
+body.dark-mode .auth-card {
+    background: #1e1e1e;
+    color: #f5f5f5;
+    border-color: #333;
+}
+
+/* Headings and text */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode p,
+body.dark-mode label {
+    color: #f5f5f5;
+}
+
+/* Inputs and textareas */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background: #242424;
+    color: #fff;
+    border-color: #444;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #999;
+}
+
+/* Search and filter areas */
+body.dark-mode .search-container,
+body.dark-mode .filters,
+body.dark-mode .filter-container {
+    background: #1e1e1e;
+    color: #fff;
+}
+
+/* Profile cards */
+body.dark-mode .profile-card a {
+    color: #fff;
+}
+
+/* Messages */
+body.dark-mode .conversation-card {
+    background: #1e1e1e;
+}
+
+body.dark-mode .conversation-card:hover {
+    background: #292929;
+}
+
+/* Chat messages */
+body.dark-mode .message-bubble {
+    border-color: #333;
+}
+
+/* Buttons */
+body.dark-mode button {
+    border-color: #444;
+}
+
+/* Close button */
+body.dark-mode .sidebar-close {
+    color: #fff;
+}
+
+/* Links */
+body.dark-mode a {
+    color: #ff8fa8;
+}
+
+/* Don't change sidebar button colors */
+body.dark-mode .sidebar-nav a {
+    color: #f1f1f1;
+}
+
+body.dark-mode .sidebar-nav a:hover {
+    color: #fff;
+}
+
+/* Avatar/profile placeholders */
+body.dark-mode .no-profile-picture,
+body.dark-mode .conversation-avatar-placeholder {
+    background: #292929;
+    color: #aaa;
+}
+
+/* Horizontal lines */
+body.dark-mode hr {
+    border-color: #333;
+}
+
+/* Footer */
+body.dark-mode footer {
+    background: #1b1b1b;
+    color: #aaa;
+}
+/* =========================================================
+   DARK MODE CHAT INPUT FIX
+   ========================================================= */
+
+body.dark-mode .chat-input,
+body.dark-mode .chat-input input,
+body.dark-mode .chat-input textarea,
+body.dark-mode #message-input {
+    background: #242424;
+    color: #ffffff;
+    border-color: #444;
+    caret-color: #ffffff;
+}
+
+body.dark-mode .chat-input input::placeholder,
+body.dark-mode .chat-input textarea::placeholder,
+body.dark-mode #message-input::placeholder {
+    color: #999;
+}
